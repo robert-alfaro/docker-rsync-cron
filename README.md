@@ -1,3 +1,5 @@
+Forked to be used on Rasberry Pi
+
 # docker-rsync-cron
 
 This is a cronjob docker container which is used to regularly sync two
