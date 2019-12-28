@@ -1,4 +1,10 @@
-FROM dkruger/cron:latest
+FROM balenalib/armv7hf-alpine
+
+ENV CRONTAB_ENTRY=""
+
+COPY docker-entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["sh", "/entrypoint.sh"]
 
 ENV \
     RSYNC_CRONTAB="0 0 * * *" \
@@ -14,3 +20,6 @@ RUN set -x; \
 VOLUME ["/rsync_src", "/rsync_dst"]
 
 COPY rsync-entrypoint.sh /entrypoint.d/rsync.sh
+
+CMD ["crond", "-f", "-l", "0"]
+
