@@ -20,13 +20,13 @@ fi
 # Create a rsync script, makes it easier to sudo
 cat << EOF > /run-rsync.sh
 set -e
-echo Rsync started at $(date)
+echo Rsync started at `date`
 sudo -u "${RSYNC_USER}" -g "${RSYNC_GROUP}" \
     rsync \
         ${RSYNC_OPTIONS} \
         /rsync_src/ \
         /rsync_dst
-echo Rsync ended at $(date)
+echo Rsync ended at `date`
 EOF
 chmod +x /run-rsync.sh
 
