@@ -28,7 +28,7 @@ sudo -u "${RSYNC_USER}" -g "${RSYNC_GROUP}" \
     rsync \
         ${RSYNC_OPTIONS} \
         /rsync_src/ \
-        /rsync_dst --log-file=$LOGFILE
+        /rsync_dst --log-file=/rsync.log
 
 
 echo Rsync ended at
@@ -36,12 +36,11 @@ date
 
 #Email Notification
 if [[ $? -eq 0 ]]; then
-echo "Backup Process was Successful"
+echo "Rsync process successful"
 else
-SUBJECT="Rsync Process error"
-echo "Rsync Process error. Sending Email..."
-cat $LOGFILE | mail -s "$SUBJECT" "${MAIL_TO}"
-echo "Email Sent."
+echo "Rsync process error. Sending Email..."
+cat /rsync.log | mail -s "Rsync process error" "${MAIL_TO}"
+echo "Email sent"
 fi
 EOF
 chmod +x /run-rsync.sh
