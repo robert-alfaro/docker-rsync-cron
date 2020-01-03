@@ -37,9 +37,8 @@ if [[ $? -eq 0 ]]; then
 echo "Backup Process was Successful"
 else
 SUBJECT="Rsync Process error"
-BODY="Rsync Process error"
 echo "Rsync Process error. Sending Email..."
-echo "$BODY" | mail -s "$SUBJECT" -r "${SMTP_ROOT}" -a "$LOGFILE" "${MAIL_TO}"
+cat $LOGFILE | mail -s "$SUBJECT" "${MAIL_TO}"
 echo "Email Sent."
 fi
 EOF
