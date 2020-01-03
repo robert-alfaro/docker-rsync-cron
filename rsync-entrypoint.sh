@@ -2,6 +2,8 @@
 
 set -e
 
+gawk 'match($0,/([^{}]*)({{\s*)(\S+)(\s*}})([^{}]*)/,a) && (a[3] in ENVIRON) { $0 = a[1] ENVIRON[a[3]] a[5] } 1' /etc/ssmtp/ssmtp.conf.tmpl > /etc/ssmtp/ssmtp.conf
+
 # Make sure that the group and users specified by the user exist
 if ! getent group "${RSYNC_GID}" &>/dev/null; then
     addgroup -g "${RSYNC_GID}" "rsynccron"
