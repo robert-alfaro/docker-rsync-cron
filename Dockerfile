@@ -2,6 +2,8 @@ FROM balenalib/armv7hf-alpine
 
 ENV CRONTAB_ENTRY=""
 
+RUN apk --update --upgrade add ssmtp mailx gawk
+
 COPY docker-entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["sh", "/entrypoint.sh"]
