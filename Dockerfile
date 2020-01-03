@@ -21,6 +21,8 @@ RUN set -x; \
 
 VOLUME ["/rsync_src", "/rsync_dst"]
 
+ADD ssmtp.conf.tmpl /etc/ssmtp/ssmtp.conf.tmpl
+
 COPY rsync-entrypoint.sh /entrypoint.d/rsync.sh
 
 CMD ["crond", "-f", "-l", "0"]
