@@ -33,7 +33,7 @@ sudo -u "${RSYNC_USER}" -g "${RSYNC_GROUP}" \
 if [[ \$? -eq 0 ]]; then
 echo "Rsync process successful at \$(date)"
 else
-echo "Rsync process error at \$(date)". Sending Email..."
+echo "Rsync process error at \$(date). Sending Email..."
 cat /rsync.log | mail -s "Rsync process error" "${MAIL_TO}"
 echo "Email sent"
 fi
