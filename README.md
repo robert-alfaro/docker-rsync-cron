@@ -1,4 +1,4 @@
-Forked to be used on Rasberry Pi
+Forked to be used on Rasberry Pi and send email in case of rsync process error
 
 # docker-rsync-cron
 
@@ -25,6 +25,15 @@ command settings:
 * `RSYNC_UID`: The UID to use when calling rsync, defaults to 0
 * `RSYNC_GID`: The GID to use when calling rsync, defaults to 0
 
+Additional environment variables for sending mails:
+
+* `MAIL_TO`: yyyyyyy@gmail.com
+* `SMTP_ROOT`: xxxxxx@gmail.com
+* `SMTP_HOSTNAME` : rsync-cron
+* `SMTP_MAIL_HUB`: smtp.gmail.com:587
+* `SMTP_AUTH_USER`: xxxxxxx@gmail.com 
+* `SMTP_AUTH_PASS`: xxxxxxxx 
+
 The image defines two volumes: `/rsync_src`, and `/rsync_dst`. The contents of
 `/rsync_src` will be copied to `/rsync_dst` on the interval defined by the
 crontab entry.
@@ -40,10 +49,27 @@ docker run \
     --volume-driver=nfs \
     -v master-svr/volume1/master:/rsync_src \
     -v local-svr/export:/rsync_dst \
-    -e RSYNC_OPTIONS="--archive --timeout=3600 --delete"
-    dkruger/rsync-cron:latest
+    -e RSYNC_OPTIONS="--archive --timeout=3600 --delete"  -e MAIL_TO=yyyyyyy@gmail.com -e SMTP_ROOT=xxxxxx@gmail.com -e SMTP_HOSTNAME=rsync-cron -e SMTP_MAIL_HUB=smtp.gmail.com:587 -e SMTP_AUTH_USER=xxxxxxx@gmail.com -e SMTP_AUTH_PASS=xxxxxxxx 
+    rugarci/rsync-cron:latest
 ```
 
+For Docker compose
+
+```yaml
+  rsync-cron:
+    image: rugarci/rsync-cron
+    environment:
+      - RSYNC_CRONTAB=35 2 * * *
+      - RSYNC_UID=0
+      - RSYNC_GID=0
+      - RSYNC_OPTIONS=--archive --timeout=3600 --delete --stats -h
+      - MAIL_TO=yyyyyyy@gmail.com
+      - SMTP_ROOT=xxxxxx@gmail.com
+      - SMTP_HOSTNAME=smartd
+      - SMTP_MAIL_HUB=smtp.gmail.com:587
+      - SMTP_AUTH_USER=xxxxxxx@gmail.com 
+      - SMTP_AUTH_PASS=xxxxxxxx 
+```
 ## About permissions
 
 Depending on your volume store, permissions might be an issue. For example some
