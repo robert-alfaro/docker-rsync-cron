@@ -21,7 +21,6 @@ fi
 
 # Create a rsync script, makes it easier to sudo
 cat << EOF > /run-rsync.sh
-set -e
 echo "-----------------Rsync started at \$(date)"
 rm /rsync.log
 sudo -u "${RSYNC_USER}" -g "${RSYNC_GROUP}" \
