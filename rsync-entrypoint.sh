@@ -41,7 +41,7 @@ fi
 EOF
 chmod +x /run-rsync.sh
 
-df -h /dev/sda1 | mail -s "Rsync error (EmailTest) detected on host: ${HOSTNAME}" "${MAIL_TO}"
+df -h | grep rsync | mail -s "Rsync error (EmailTest) detected on host: ${HOSTNAME}" "${MAIL_TO}"
 
 # Setup our crontab entry
 export CRONTAB_ENTRY="${RSYNC_CRONTAB} sh /run-rsync.sh"
