@@ -2,6 +2,10 @@
 
 set -e
 
+# Default values
+true ${RSYNC_SRC:=/rsync_src}
+true ${RSYNC_DST:=/rsync_dst}
+
 /usr/bin/envsubst < "/etc/ssmtp/ssmtp.conf.tmpl" > "/etc/ssmtp/ssmtp.conf"
 
 # Make sure that the group and users specified by the user exist
@@ -26,8 +30,8 @@ rm /rsync.log
 sudo -u "${RSYNC_USER}" -g "${RSYNC_GROUP}" \
     rsync \
         ${RSYNC_OPTIONS} \
-        /rsync_src/ \
-        /rsync_dst --log-file=/rsync.log
+        ${RSYNC_SRC}/ \
+        ${RSYNC_DST} --log-file=/rsync.log
 
 #Email Notification
 if [[ \$? -eq 0 ]]; then
