@@ -1,4 +1,4 @@
-FROM balenalib/armv7hf-alpine
+FROM alpine
 
 ENV CRONTAB_ENTRY=""
 
