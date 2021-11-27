@@ -24,6 +24,8 @@ command settings:
 `--archive --timeout=3600`
 * `RSYNC_UID`: The UID to use when calling rsync, defaults to 0
 * `RSYNC_GID`: The GID to use when calling rsync, defaults to 0
+* `RSYNC_SRC`: Source folder or url, defaults to /rsync_src
+* `RSYNC_DST`: Destination folder or url, defaults to /rsync_dst
 
 Additional environment variables for sending mails:
 
