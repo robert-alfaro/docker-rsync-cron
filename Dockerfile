@@ -35,7 +35,5 @@ ADD ssmtp.conf.tmpl /etc/ssmtp/ssmtp.conf.tmpl
 
 COPY rsync-entrypoint.sh /entrypoint.d/rsync.sh
 
-USER nobody
-
 CMD ["crond", "-f", "-l", "0"]
 
