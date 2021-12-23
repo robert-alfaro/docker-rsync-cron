@@ -1,8 +1,18 @@
-FROM alpine:3.12.9
+ARG ALPINE_BASE="3.12.9"
+
+FROM alpine:${ALPINE_BASE}
+
+LABEL org.label-schema.build-date=$BUILD_DATE \
+    org.label-schema.name="docker-rsync-cron" \
+    org.label-schema.version=$VERSION \
+    org.label-schema.vcs-ref=$VCS_REF \
+    org.label-schema.vcs-url="https://github.com/rugarci/docker-rsync-cron" \
+    org.label-schema.vcs-type="Git" \
+    org.label-schema.schema-version="1.0"
 
 ENV CRONTAB_ENTRY=""
 
-RUN apk --update --upgrade add ssmtp mailx gettext
+RUN apk --no-cache add ssmtp mailx gettext rsync sudo
 
 COPY docker-entrypoint.sh /entrypoint.sh
 
@@ -14,16 +24,18 @@ ENV \
     RSYNC_UID="0" \
     RSYNC_GID="0"
 
-RUN set -x; \
-    apk add --no-cache --update rsync sudo \
-    && rm -rf /tmp/* \
-    && rm -rf /var/cache/apk/*
+# RUN set -x; \
+#     apk add --no-cache --update rsync sudo \
+#     && rm -rf /tmp/* \
+#     && rm -rf /var/cache/apk/*
 
 VOLUME ["/rsync_src", "/rsync_dst"]
 
 ADD ssmtp.conf.tmpl /etc/ssmtp/ssmtp.conf.tmpl
 
 COPY rsync-entrypoint.sh /entrypoint.d/rsync.sh
+
+USER nobody
 
 CMD ["crond", "-f", "-l", "0"]
 
