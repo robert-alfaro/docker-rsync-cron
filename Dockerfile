@@ -14,15 +14,9 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.vcs-type="Git" \
     org.label-schema.schema-version="1.0"
 
-ENV CRONTAB_ENTRY=""
-
 RUN apk --no-cache add ssmtp mailx gettext rsync sudo
 
-COPY docker-entrypoint.sh /entrypoint.sh
-
-ENTRYPOINT ["sh", "/entrypoint.sh"]
-
-ENV \
+ENV CRONTAB_ENTRY="" \
     RSYNC_CRONTAB="0 0 * * *" \
     RSYNC_OPTIONS="--archive --timeout=3600" \
     RSYNC_UID="0" \
@@ -31,8 +25,7 @@ ENV \
 VOLUME ["/rsync_src", "/rsync_dst"]
 
 ADD ssmtp.conf.tmpl /etc/ssmtp/ssmtp.conf.tmpl
-
 COPY rsync-entrypoint.sh /entrypoint.d/rsync.sh
+COPY docker-entrypoint.sh /entrypoint.sh
 
-CMD ["crond", "-f", "-l", "0"]
-
+ENTRYPOINT ["sh", "/entrypoint.sh"]
