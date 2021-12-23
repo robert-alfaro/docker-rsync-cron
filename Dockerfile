@@ -1,9 +1,10 @@
 ARG ALPINE_BASE="3.12.9"
+
+FROM alpine:${ALPINE_BASE}
+
 ARG BUILD_DATE
 ARG VERSION
 ARG VCS_REF
-
-FROM alpine:${ALPINE_BASE}
 
 LABEL org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.name="docker-rsync-cron" \
@@ -26,11 +27,6 @@ ENV \
     RSYNC_OPTIONS="--archive --timeout=3600" \
     RSYNC_UID="0" \
     RSYNC_GID="0"
-
-# RUN set -x; \
-#     apk add --no-cache --update rsync sudo \
-#     && rm -rf /tmp/* \
-#     && rm -rf /var/cache/apk/*
 
 VOLUME ["/rsync_src", "/rsync_dst"]
 
