@@ -14,7 +14,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.vcs-type="Git" \
     org.label-schema.schema-version="1.0"
 
-RUN apk --no-cache add ssmtp mailx gettext rsync sudo
+RUN apk --no-cache add ssmtp mailx gettext rsync tzdata sudo
 
 ENV CRONTAB_ENTRY="" \
     RSYNC_CRONTAB="0 0 * * *" \
