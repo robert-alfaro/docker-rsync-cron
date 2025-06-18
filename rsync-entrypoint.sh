@@ -32,19 +32,19 @@ fi
 # Create a rsync script, makes it easier to sudo
 cat << EOF > /run-rsync.sh
 echo "-----------------Rsync started at \$(date)"
-rm /rsync.log
+rm /tmp/rsync.log
 sudo -u "${RSYNC_USER}" -g "${RSYNC_GROUP}" \
     rsync \
         ${RSYNC_OPTIONS} \
         ${RSYNC_SRC}/ \
-        ${RSYNC_DST} --log-file=/rsync.log
+        ${RSYNC_DST} --log-file=/tmp/rsync.log
 
 #Email Notification
 if [[ \$? -eq 0 ]]; then
 echo "Rsync successful at \$(date)"
 else
 echo "Rsync error at \$(date). Sending Email..."
-cat /rsync.log | mail -s "Rsync error detected on host: ${HOSTNAME}" "${MAIL_TO}"
+cat /tmp/rsync.log | mail -s "Rsync error detected on host: ${HOSTNAME}" "${MAIL_TO}"
 echo "Email sent"
 fi
 
