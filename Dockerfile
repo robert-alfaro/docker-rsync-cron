@@ -10,11 +10,11 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.name="docker-rsync-cron" \
     org.label-schema.version=$VERSION \
     org.label-schema.vcs-ref=$VCS_REF \
-    org.label-schema.vcs-url="https://github.com/rugarci/docker-rsync-cron" \
+    org.label-schema.vcs-url="https://github.com/robert-alfaro/docker-rsync-cron" \
     org.label-schema.vcs-type="Git" \
     org.label-schema.schema-version="1.0"
 
-RUN apk --no-cache add ssmtp mailx gettext rsync tzdata sudo
+RUN apk --no-cache add msmtp mailx gettext rsync tzdata sudo
 
 ENV CRONTAB_ENTRY="" \
     RSYNC_CRONTAB="0 0 * * *" \
@@ -24,7 +24,7 @@ ENV CRONTAB_ENTRY="" \
 
 VOLUME ["/rsync_src", "/rsync_dst"]
 
-ADD ssmtp.conf.tmpl /etc/ssmtp/ssmtp.conf.tmpl
+ADD msmtprc.tmpl /etc/msmtprc.tmpl
 COPY rsync-entrypoint.sh /entrypoint.d/rsync.sh
 COPY docker-entrypoint.sh /entrypoint.sh
 
