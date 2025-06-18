@@ -6,7 +6,13 @@ set -e
 true ${RSYNC_SRC:=/rsync_src}
 true ${RSYNC_DST:=/rsync_dst}
 
-/usr/bin/envsubst < "/etc/ssmtp/ssmtp.conf.tmpl" > "/etc/ssmtp/ssmtp.conf"
+# Generate msmtprc config
+echo "[msmtp] generating /etc/msmtprc from template"
+/usr/bin/envsubst < "/etc/msmtprc.tmpl" > "/etc/msmtprc"
+chmod 600 /etc/msmtprc
+
+# Replace sendmail with msmtp
+ln -sf /usr/bin/msmtp /usr/sbin/sendmail
 
 # Make sure that the group and users specified by the user exist
 if ! getent group "${RSYNC_GID}" &>/dev/null; then

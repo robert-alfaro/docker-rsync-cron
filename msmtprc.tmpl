@@ -1,0 +1,13 @@
+defaults
+auth           on
+tls            $SMTP_TLS
+tls_starttls   $SMTP_STARTTLS
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+logfile        /tmp/msmtp.log
+
+account        default
+host           $SMTP_HOST
+port           $SMTP_PORT
+from           $SMTP_AUTH_USER
+user           $SMTP_AUTH_USER
+password       $SMTP_AUTH_PASS
