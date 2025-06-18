@@ -21,7 +21,7 @@ fi
 RSYNC_GROUP="$(getent group "${RSYNC_GID}" | cut -d: -f1)"
 
 if ! getent passwd "${RSYNC_UID}" &>/dev/null; then
-    adduser -u "${RSYNC_UID}" -H "rsynccron" "${RSYNC_GROUP}"
+    adduser -u "${RSYNC_UID}" -D -H -G "${RSYNC_GROUP}" "rsynccron"
 fi
 RSYNC_USER="$(getent passwd "${RSYNC_UID}" | cut -d: -f1)"
 
